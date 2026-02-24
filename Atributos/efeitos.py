@@ -1,17 +1,17 @@
 class Efeitos:
-    def __init__(self, bolsa=0,
+    def __init__(self, 
         sono=0, fome=0,
-        sede=0, ferimento=0, ferimentoGrave=0,
+        sede=0,
         medo=0, panico=0, sangramento=0, adrenalina=0,
         mal=0, depressao=0, alcool=0, abstinencia=0,
-        infec=0
+        infec=0,
+        cabeça=0, tronco=0,
+        pernaDireita=0, pernaEsquerda=0,
+        braçoDireito=0, braçoEsquerdo=0
     ):
-        self.bolsa = bolsa
         self.sono = sono
         self.fome = fome
         self.sede = sede
-        self.ferimento = ferimento
-        self.ferimentoGrave = ferimentoGrave
         self.medo = medo
         self.panico = panico
         self.sangramento = sangramento
@@ -22,8 +22,10 @@ class Efeitos:
         self.abstinencia = abstinencia
         self.infec = infec
 
-    
-
-
-        
-    
+        # partes do corpo como efeitos individuais
+        self.cabeça = cabeça
+        self.tronco = tronco
+        self.pernaDireita = pernaDireita
+        self.pernaEsquerda = pernaEsquerda
+        self.braçoDireito = braçoDireito
+        self.braçoEsquerdo = braçoEsquerdo

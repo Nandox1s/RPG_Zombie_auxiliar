@@ -9,6 +9,7 @@ class Personagem(Atributos, Habilidades, Efeitos):
     def __init__(self, nome):
         self.nome = nome
         self.idade = 0
+        self.bolsa = 0
         Atributos.__init__(self)
         Habilidades.__init__(self)
         Efeitos.__init__(self)
@@ -37,13 +38,12 @@ class Personagem(Atributos, Habilidades, Efeitos):
     def check(self, nome):
         p1 = Personagem.carregar(f"Salvos/{nome}.json")
         lista = Efeitos()
-        
+
         for efeito, valor in lista.__dict__.items():
             if hasattr(p1, efeito):
                 valor_personagem = getattr(p1, efeito)
                 if valor_personagem > 0:
                     print(efeito,":",valor_personagem)
-
 
     def deletarEfeito(self, atributo):
         if hasattr(self, atributo):
@@ -51,7 +51,6 @@ class Personagem(Atributos, Habilidades, Efeitos):
             self.salvar()             # salva no JSON atualizado
         else:
             raise AttributeError(f"O atributo '{atributo}' não existe.")
-
 
     def adicionarEfeito(self, atributo, valor):
         setattr(self, atributo, valor)

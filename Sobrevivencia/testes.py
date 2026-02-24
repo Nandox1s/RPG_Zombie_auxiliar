@@ -26,19 +26,33 @@ def testeAtributo(atributo,dificuldade,mod):
 
 #Combate
 
+def ferimento(p1):
+        onde = randint(1, 6)
+        mapa = {
+            1: "cabeça",
+            2: "braçoEsquerdo",
+            3: "braçoDireito",
+            4: "pernaDireita",
+            5: "pernaEsquerda",
+            6: "tronco"
+        }
+        parte = mapa[onde]
+        p1.aplicarEfeito(parte, 1)
+        print(f"Ferimento em {parte}")
+
 def zombieAtaque(p1,mod):
     dadoZombie = randint(1,6)
     ataqueZombie = randint(1,2)
     if ataqueZombie == 1:
         print("Dado do Zombie:",dadoZombie)
         if dadoZombie > (p1.FIS-mod):
-            p1.aplicarEfeito("ferimento",1)
+            ferimento(p1)
             return "Zombie agarrou"
         else: return "Zombie errou"
     if ataqueZombie == 2:
         print("Dado do Zombie:",dadoZombie)
         if dadoZombie > (p1.FIS-mod):
-            p1.aplicarEfeito("ferimento",1)
+            ferimento(p1)
             return "Zombie te bateu"
         else: return "Zombie errou"        
     
@@ -48,16 +62,18 @@ def zombieLutar(p1, dado, mod, zombieFIS):
     if (dado+p1.FIS)-mod > (zombieFIS+dadoZombie):
         return "Você derrubou ele"
     else: 
-        p1.aplicarEfeito("ferimentoGrave",1)
+        ferimento(p1)
+        p1.aplicarEfeito("sangramento",1)
         p1.aplicarEfeito("infec",1)
         return "Ele te mordeu"
 
 def zombieFugir(p1, dado, mod):
     if (dado+p1.FIS)-mod > 4:
-        p1.aplicarEfeito("ferimento",1)
+        ferimento(p1)
         return "Você fugiu"
     else: 
-        p1.aplicarEfeito("ferimentoGrave",1)
+        ferimento(p1)
+        p1.aplicarEfeito("sangramento",1)
         p1.aplicarEfeito("infec",1)
         return "Ele te mordeu"
 
@@ -152,7 +168,7 @@ def medicamento(p1, Item):
             print("Curativo estéril usado: sangramento estancado")
         if Item == "sutura":
             p1.removerItem(Item, 1)
-            p1.removerEfeito("ferimentoGrave", randint(1, 3))
+            #p1.removerEfeito("ferimentoGrave", randint(1, 3))
             print("Sutura usada: ferimento grave tratado")
         if Item == "agulha_seringa":
             p1.removerItem(Item, 1)
@@ -164,7 +180,7 @@ def medicamento(p1, Item):
             print("Compressa usada: sangramento reduzido")
         if Item == "kit_primeiros_socorros":
             p1.removerItem(Item, 1)
-            p1.removerEfeito("ferimento", randint(5, 15))
+            #p1.removerEfeito("ferimento", randint(5, 15))
             print("Kit de primeiros socorros usado: ferimento tratado")
         if Item == "alcool":
             p1.removerItem(Item, 1)
@@ -204,3 +220,5 @@ def medicamento(p1, Item):
         print("usado")
     except:
         print("Item não encontrado")
+
+

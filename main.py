@@ -2,22 +2,39 @@ from Atributos.personagem import Personagem
 import Sobrevivencia.gerar
 import Sobrevivencia.testes
 import Sobrevivencia.zombies
+import Sobrevivencia.necessidades
 
 acoesCombate = {
     "zombieFugir": Sobrevivencia.testes.zombieFugir,
     "desarmado": Sobrevivencia.testes.desarmado,
 }
 
-minuto = 0
+ultimoSono = 0
+ultimaBebida = 0
+ultimaRefeicao = 0
 
-nome = input("Personagem: ")
-hora = int(input("Hora do dia: "))
-ultimaBebida = hora
-ultimaRefeicao = hora
-ultimoSono = hora
-p1 = Personagem.carregar(f"Salvos/{nome}.json")
+while True:
+    nome = input("Personagem: ")
+    hora = int(input("Hora do dia: "))
+    minuto = 0
+    ultimaBebida = hora
+    ultimaRefeicao = hora
+    ultimoSono = hora
+    try: 
+        p1 = Personagem.carregar(f"Salvos/{nome}.json")
+        break
+    except:
+        print("Quer criar este personagem ?")
+        aux = input("sim ou não: ")
+        if aux == "sim":
+            p1 = Personagem(nome)
+            p1.salvar()
+            break
+        else:
+            print("...Tente Novamente")
 dia = p1.DIA
 while True:
+    print("-"*10)
     p1 = Personagem.carregar(f"Salvos/{nome}.json")
     mod = p1.modificador(nome)
     acao = input("Ação: ")
@@ -34,31 +51,12 @@ while True:
         hora += 1
 
     #Ações e efeitos em tempo de jogo
-    if acao != "check" and acao != "tempo" and acao != "beber" and acao != "comer":
-        beberD = (hora - ultimaBebida)
-        comerD = (hora - ultimaRefeicao)
-        sonoD  = (hora - ultimoSono)
+    ultimaBebida = Sobrevivencia.necessidades.necessidade(p1,hora,ultimaBebida,"sede",6)
 
-        if beberD < 0:
-            beberD += 24
-        if beberD > 6:
-            if p1.sede != 2:
-                print("ficar de olho")
-                p1.aplicarEfeito("sede",1)
+    ultimaRefeicao = Sobrevivencia.necessidades.necessidade(p1,hora,ultimaRefeicao,"fome",8)
 
-        if comerD < 0:
-            comerD += 24
-        if comerD > 8:
-            if p1.fome != 2:
-                p1.aplicarEfeito("fome",1)
+    ultimoSono = Sobrevivencia.necessidades.necessidade(p1,hora,ultimoSono,"sono",16)
 
-        if sonoD < 0:
-            sonoD += 24
-        if sonoD > 16:
-            if p1.sono != 2:
-                p1.aplicarEfeito("sono",1)
-
-    
     #Cansaço
     if (p1.ACT%96)==0:
         if p1.ACT != 0:
@@ -294,18 +292,25 @@ while True:
     else:
         print("Ação inválida")
 
+    #Encontros
     try:
         zombiesLocal.encontro()
     except:
         Sobrevivencia.zombies.gerar_aleatorio(p1)
 
+    #Moral
     if p1.MORAL < 5:
         if hora > 18 and hora < 23:
             print("Fazer teste da MORAL")
     if p1.CONS == 10:
         p1.aplicarEfeito("MORAL",1)
 
+    #morte
+    if mod > 2.4:
+        print(mod)
+        print("Morreu")
+        break
+
     minuto += 1 
-    print("-"*10)
 
     

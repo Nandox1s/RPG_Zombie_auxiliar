@@ -1,13 +1,6 @@
-# Ignorar cache do Python
-__pycache__/
+# Ignorar a pasta .ignorar inteira
+.ignorar/
 
-# Ignorar PDF específico
-Zombie Survival 1.4.pdf
-Zombie\ Survival\ 1.4.pdf
+.Sobrevivencia/__pycache__/
+.Atributos/__pycache__/
 
-# Ignorar arquivo de notas
-notas.txt
-
-# Ignorar o salvos
-Salvos\
-Salvos

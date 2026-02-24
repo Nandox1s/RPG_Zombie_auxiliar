@@ -1,26 +1,76 @@
 from Atributos.personagem import Personagem
 from random import randint
 
-def testeSorte(p1,dados,atributo,habilidade,nivelHabilidade,dificuldade,mod):
+REGRAS = {
+    "FIS": [
+        ("sono", -1),
+        ("fome", -1),
+        ("sede", -1),
+        ("cocaina",1),
+        ("infec",-1),
+        ("sangramento",-1),
+        ("dor",-1),
+        ("mal",-1),
+        ("abstinencia",-1),
+        ("cabeça",-0.25),
+        ("tronco",-0.25),
+        ("pernaDireita",-0.25),
+        ("pernaEsquerda",-0.25),
+        ("braçoDireito",-0.25),
+        ("braçoEsquerdo",-0.25)
+    ],
+    "SOC": [
+        ("sono", -1),
+        ("fome", -1),
+        ("sede", -1),
+        ("dor",-1)
+    ],
+    "INT": [
+        ("maconha",-1),
+        ("alcool", -1),
+        ("sono", -1),
+        ("fome", -1),
+        ("sede", -1),
+        ("dor",-1)
+    ]
+
+}
+
+def mod(p1, atributo):
+    base = getattr(p1, atributo)
+    mod = 0
+
+    for efeito, impacto in REGRAS.get(atributo, []):
+        
+        valor = getattr(p1, efeito)
+        if valor > 0:
+            mod += abs(impacto)  # aplica penalidade ou bônus
+
+    return base + sum(val for _, val in REGRAS.get(atributo, []) if getattr(p1, _) > 0)
+
+
+
+def testeSorte(p1,dados,atributo,habilidade,nivelHabilidade,dificuldade):
     teste = (dados+atributo)+((nivelHabilidade*0.01)*(dados+atributo))
     print(teste)
-    if (teste-mod) >= dificuldade:
+    if (teste) >= dificuldade:
         p1.aplicarEfeito(habilidade,1)
         return "Conseguiu"
     else: 
         p1.aplicarEfeito(habilidade,1)
         return "Errou"
 
-def testeHabilidade(p1,habilidade,nivelHabilidade,dificuldade,mod):
-    if ((0.1*nivelHabilidade)-mod) >= dificuldade:
+def testeHabilidade(p1,habilidade,nivelHabilidade,dificuldade):
+    if ((0.1*nivelHabilidade)) >= dificuldade:
        p1.aplicarEfeito(habilidade,1)
        return "Conseguiu"
     else: 
         p1.aplicarEfeito(habilidade,1)
         return "Errou"
 
-def testeAtributo(atributo,dificuldade,mod):
-    if (atributo-mod) >= dificuldade:
+def testeAtributo(atributo,dificuldade):
+    if (atributo) >= dificuldade:
+       print(atributo)
        return "Conseguiu"
     else: return "Errou"
 
@@ -40,26 +90,26 @@ def ferimento(p1):
         p1.aplicarEfeito(parte, 1)
         print(f"Ferimento em {parte}")
 
-def zombieAtaque(p1,mod):
+def zombieAtaque(p1):
     dadoZombie = randint(1,6)
     ataqueZombie = randint(1,2)
     if ataqueZombie == 1:
         print("Dado do Zombie:",dadoZombie)
-        if dadoZombie > (p1.FIS-mod):
+        if dadoZombie > (mod(p1,"FIS")):
             ferimento(p1)
             return "Zombie agarrou"
         else: return "Zombie errou"
     if ataqueZombie == 2:
         print("Dado do Zombie:",dadoZombie)
-        if dadoZombie > (p1.FIS-mod):
+        if dadoZombie > (mod(p1,"FIS")):
             ferimento(p1)
             return "Zombie te bateu"
         else: return "Zombie errou"        
     
-def zombieLutar(p1, dado, mod, zombieFIS):
+def zombieLutar(p1, dado, zombieFIS):
     dadoZombie = randint(1,6)
     print("Dado do Zombie:",dadoZombie)
-    if (dado+p1.FIS)-mod > (zombieFIS+dadoZombie):
+    if (dado+mod(p1,"FIS")) > (zombieFIS+dadoZombie):
         return "Você derrubou ele"
     else: 
         ferimento(p1)
@@ -67,8 +117,8 @@ def zombieLutar(p1, dado, mod, zombieFIS):
         p1.aplicarEfeito("infec",1)
         return "Ele te mordeu"
 
-def zombieFugir(p1, dado, mod):
-    if (dado+p1.FIS)-mod > 4:
+def zombieFugir(p1, dado ):
+    if (dado+mod(p1,"FIS")) > 4:
         ferimento(p1)
         return "Você fugiu"
     else: 
@@ -77,12 +127,11 @@ def zombieFugir(p1, dado, mod):
         p1.aplicarEfeito("infec",1)
         return "Ele te mordeu"
 
-def desarmado(p1,dado,mod):
-    teste = (dado+p1.FIS)+((dado+p1.desarmado)*(p1.desarmado*0.1))-mod
+def desarmado(p1,dado):
+    teste1 = dado+mod(p1,"FIS")
+    teste = teste1+((p1.desarmado*0.01)*teste1)
     print(teste)
     p1.aplicarEfeito("desarmado",1)
-    
-
     if dado == 1:
         return "Erro Critico"
     elif (teste < 4):
@@ -92,9 +141,9 @@ def desarmado(p1,dado,mod):
     elif teste >= 6:
         return "cabeça"
 
-def armasBrancas(p1,arma,dado,mod):
-    teste1 = dado+p1.FIS
-    teste = teste1+((p1.armas_brancas*0.01)*teste1)-mod
+def armasBrancas(p1,arma,dado):
+    teste1 = dado+mod(p1,"FIS")
+    teste = teste1+((p1.armas_brancas*0.01)*teste1)
     print(teste)
     p1.aplicarEfeito("armas_brancas",1)
     p1.removerItem(arma,1)
@@ -108,33 +157,36 @@ def armasBrancas(p1,arma,dado,mod):
     elif teste >= 10:
         return "Cabeça"
 
-def armasFogo(p1,arma, municao, alvos, mod):
-    p1.removerItem(arma, municao)
-    p1.aplicarEfeito("armas_de_fogo",1)
-    for i in range(municao):
-        for z in range(alvos):
-            dado = int(input("Dado: "))
-            teste1 = dado + p1.FIS
-            teste = teste1 + ((p1.armas_de_fogo * 0.01) * teste1) - mod
-            if teste == 2:
-                print("Erro crítico")
-            elif teste < 6:
-                print("Errou")
-            elif 6 <= teste < 8:
-                print("Tronco")
-            elif 8 <= teste < 9:
-                print("Braços ou Pernas")
-            elif 9 <= teste < 11:
-                print("Mãos ou pés")
-            elif teste == 11:
-                print("Cabeça")
-            elif teste > 12:
-                print("Olhos")
+def armasFogo(p1,arma, municao, alvos ):
+    try:
+        p1.removerItem(arma, municao)
+        p1.aplicarEfeito("armas_de_fogo",1)
+        for i in range(municao):
+            for z in range(alvos):
+                dado = int(input("Dado: "))
+                teste1 = dado + mod(p1,"FIS")
+                teste = teste1 + ((p1.armas_de_fogo * 0.01) * teste1)  
+                if teste == 2:
+                    print("Erro crítico")
+                elif teste < 6:
+                    print("Errou")
+                elif 6 <= teste < 8:
+                    print("Tronco")
+                elif 8 <= teste < 9:
+                    print("Braços ou Pernas")
+                elif 9 <= teste < 11:
+                    print("Mãos ou pés")
+                elif teste == 11:
+                    print("Cabeça")
+                elif teste > 12:
+                    print("Olhos")
+    except:
+        print("Sem arma")
 
 #ações
 
-def lootear(p1,dado,mod):
-    teste = (p1.INT+dado)-mod
+def lootear(p1,dado):
+    teste = (p1.INT+dado)
     if teste == 2:
         print("Nada")
     elif teste > 2 and teste <= 6:

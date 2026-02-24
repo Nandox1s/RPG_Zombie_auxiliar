@@ -1,0 +1,13 @@
+{
+Arroz 3 
+Bolacha 1 
+Agua 3
+Manteiga 3 
+Ovos 3
+Celular
+KIT DE MECANICO
+}
+
+{
+2 pareia Roupas
+}

@@ -1,0 +1,14 @@
+-42%
+COMB: -23%
+Kit de mecanico 
+            "agua": 2,
+            "bife": 1,
+            "arroz": 3
+
+
+
+Oxigêncio 10
+Pinça 10
+antisseptico 6
+Analgesico 6
+Cano 40

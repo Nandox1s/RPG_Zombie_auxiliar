@@ -7,50 +7,53 @@ import Sobrevivencia.necessidades
 ultimoSono = 0
 ultimaBebida = 0
 ultimaRefeicao = 0
+hora = int(input("Hora do dia: "))
+ultimaBebida = hora
+ultimaRefeicao = hora
+ultimoSono = hora
+minuto = 0
+personagens = []
 
 while True:
-    nome = input("Personagem: ")
-    hora = int(input("Hora do dia: "))
-    minuto = 0
-    ultimaBebida = hora
-    ultimaRefeicao = hora
-    ultimoSono = hora
-    try: 
-        p1 = Personagem.carregar(f"Salvos/{nome}.json")
-        break
-    except:
-        print("Quer criar este personagem ?")
-        aux = input("sim ou não: ")
-        if aux == "sim":
-            p1 = Personagem(nome)
-            p1.salvar()
+    try:
+        nome = input("Carregar Personagem: ")
+        if nome == "criar":
+            novo_nome = input("Nome do novo personagem: ")
+            p = Personagem(novo_nome)
+            p.salvar()
+            personagens.append(p)
+            print(f"Personagem {novo_nome} criado e salvo.")
+
+        elif nome == "x":
             break
+
         else:
-            print("...Tente Novamente")
-dia = p1.DIA
+            try:
+                p = Personagem.carregar(f"Salvos/{nome}.json")
+                personagens.append(p)
+                print(f"Personagem {nome} carregado.")
+            except:
+                print(f"Não foi possível carregar {nome}.")
+    except:
+        print("Algum erro...")
+
+
 while True:
     print("-"*10)
+    nome = input("Personagem da ação: ")
     p1 = Personagem.carregar(f"Salvos/{nome}.json")
-    
+    dia = p1.DIA
+    p1.atualizar_tempo(hora, minuto, dia, p1)
     acao = input("Ação: ")
     p1.aplicarEfeito("ACT",1)
 
-    #Horario
-    if hora > 24:
-        hora = 0
-        dia += 1 
-        p1.aplicarEfeito("DIA",1)
-    
-    if minuto > 60:
-        minuto %= 60
-        hora += 1
-
     #Ações e efeitos em tempo de jogo
-    ultimaBebida = Sobrevivencia.necessidades.necessidade(p1,hora,ultimaBebida,"sede",6)
+    for p in personagens:
+        ultimaBebida = Sobrevivencia.necessidades.necessidade(p,hora,ultimaBebida,"sede",6)
 
-    ultimaRefeicao = Sobrevivencia.necessidades.necessidade(p1,hora,ultimaRefeicao,"fome",8)
+        ultimaRefeicao = Sobrevivencia.necessidades.necessidade(p,hora,ultimaRefeicao,"fome",8)
 
-    ultimoSono = Sobrevivencia.necessidades.necessidade(p1,hora,ultimoSono,"sono",16)
+        ultimoSono = Sobrevivencia.necessidades.necessidade(p,hora,ultimoSono,"sono",16)
 
     #Cansaço
     if (p1.ACT%96)==0:
@@ -138,7 +141,7 @@ while True:
         print(Sobrevivencia.testes.testeHabilidade(p1, habilidade, nivelHabilidade, dificuldade))
 
     elif acao == "testeAtr":
-        atributo = input("Atributo: ")
+        atributo = input("Nome do Atributo: ")
         atributo = Sobrevivencia.testes.mod(p1, atributo)
         dificuldade = int(input("Dificuldade: "))
         tempoadd = int(input("Minutos: "))

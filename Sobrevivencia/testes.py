@@ -98,13 +98,13 @@ def zombieAtaque(p1):
         if dadoZombie > (mod(p1,"FIS")):
             ferimento(p1)
             return "Zombie agarrou"
-        else: return "Zombie errou"
+        else: return "Zombie errou agarrada"
     if ataqueZombie == 2:
         print("Dado do Zombie:",dadoZombie)
-        if dadoZombie > (mod(p1,"FIS")):
+        if (dadoZombie) > (mod(p1,"FIS")):
             ferimento(p1)
-            return "Zombie te bateu"
-        else: return "Zombie errou"        
+            return "Zombie te arranhou"
+        else: return "Zombie errou golpe"        
     
 def zombieLutar(p1, dado, zombieFIS):
     dadoZombie = randint(1,6)

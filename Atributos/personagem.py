@@ -132,7 +132,7 @@ class Personagem(Atributos, Habilidades, Efeitos):
                 hora = hora % 24
                 personagem.aplicarEfeito("DIA", hora // 24)  # aplica efeito proporcional
 
-            return hora, minuto, dia
+            return dia, hora, minuto
 
     @classmethod
     def carregar(cls, arquivo):

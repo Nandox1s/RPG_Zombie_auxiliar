@@ -41,6 +41,10 @@ casa = {
     "kit_primeiros_socorros": lambda: randint(1, 10),
     "alcool": lambda: randint(3, 10),
     "remedio_dor": lambda: randint(1,8),
+    # adições
+    "mochila": lambda: randint(2,8),
+    "pistola": lambda: randint(0,12),
+    "rifle": lambda: randint(0,6),
 }
 
 def gerar_casa():
@@ -61,7 +65,11 @@ def gerar_casa():
             # eletrônicos
             2, 2, 2,
             # primeiros socorros
-            3, 2, 2, 2
+            3, 2, 2, 2,
+            #adições
+            2,1,1
+
+
         ],
         k=randint(3, 12)
     )

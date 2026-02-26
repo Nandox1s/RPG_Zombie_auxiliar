@@ -46,67 +46,73 @@ class Personagem(Atributos, Habilidades, Efeitos):
                     print(efeito,":",valor_personagem)
 
     def deletarEfeito(self, atributo):
-        if hasattr(self, atributo):
-            delattr(self, atributo)   # remove o atributo do objeto
-            self.salvar()             # salva no JSON atualizado
-        else:
-            raise AttributeError(f"O atributo '{atributo}' não existe.")
+        try:
+            if hasattr(self, atributo):
+                delattr(self, atributo)   # remove o atributo do objeto
+                self.salvar()             # salva no JSON atualizado
+        except:
+            print(f"O atributo '{atributo}' não existe.")
 
     def adicionarEfeito(self, atributo, valor):
         setattr(self, atributo, valor)
         self.salvar()
         
     def aplicarEfeito(self, atributo, valor):
-        if hasattr(self, atributo):
-            atual = getattr(self, atributo)
-            setattr(self, atributo, atual + valor)
-            self.salvar()
-        else:
-            raise AttributeError(f"Atributo '{atributo}' não existe.")
+        try:
+            if hasattr(self, atributo):
+                atual = getattr(self, atributo)
+                setattr(self, atributo, atual + valor)
+                self.salvar()
+        except:
+            print(f"Atributo '{atributo}' não existe.")
 
     def removerEfeito(self, atributo, valor):
-        if hasattr(self, atributo):
-            atual = getattr(self, atributo)
-            if atual == 0:
-                return "minimo"
-            if atual < 0:
-                print("valor negativo")
-            setattr(self, atributo, atual - valor)
-            self.salvar()
-        else:
-            raise AttributeError(f"Atributo '{atributo}' não existe.")
+        try:
+            if hasattr(self, atributo):
+                atual = getattr(self, atributo)
+                if atual == 0:
+                    return "minimo"
+                if atual < 0:
+                    print("valor negativo")
+                setattr(self, atributo, atual - valor)
+                self.salvar()
+        except:
+            print(f"Atributo '{atributo}' não existe.")
         
     def adicionarItem(self, item, valor):
-        if "inventario" in self.__dict__:
-            inventario = self.__dict__["inventario"]
-            if item in inventario:
-                inventario[item] += valor
-                print("Item adicionado")
-            else:
-                inventario[item] = valor
-                print("Item adicionado")
-            self.salvar()
-        else:
-            raise AttributeError("Inventário não existe no personagem.")
+        try:
+            if "inventario" in self.__dict__:
+                inventario = self.__dict__["inventario"]
+                if item in inventario:
+                    inventario[item] += valor
+                    print("Item adicionado")
+                else:
+                    inventario[item] = valor
+                    print("Item adicionado")
+                self.salvar()
+        except:
+            print("Inventário não existe no personagem.")
 
     def removerItem(self, item, valor):
-        if "inventario" in self.__dict__ and item in self.__dict__["inventario"]:
-            atual = self.__dict__["inventario"][item]
-            if atual <= 0:
-                return "minimo"
-            novo_valor = max(0, atual - valor)  # evita negativo
-            self.__dict__["inventario"][item] = novo_valor
-            self.salvar()
-        else:
-            raise AttributeError(f"O item '{item}' não existe no inventário.")
+        try:
+            if "inventario" in self.__dict__ and item in self.__dict__["inventario"]:
+                atual = self.__dict__["inventario"][item]
+                if atual <= 0:
+                    return "minimo"
+                novo_valor = max(0, atual - valor)  # evita negativo
+                self.__dict__["inventario"][item] = novo_valor
+                self.salvar()
+        except:
+            print(f"O item '{item}' não existe no inventário.")
         
     def deletarItem(self, item):
-        if "inventario" in self.__dict__ and item in self.__dict__["inventario"]:
-            del self.__dict__["inventario"][item]  # remove a chave do dicionário
-            self.salvar()
-            print(f"Item '{item}' removido do inventário.")
-        else:
-            raise AttributeError(f"O item '{item}' não existe no inventário.")
+        try:
+            if "inventario" in self.__dict__ and item in self.__dict__["inventario"]:
+                del self.__dict__["inventario"][item]  # remove a chave do dicionário
+                self.salvar()
+                print(f"Item '{item}' removido do inventário.")
+        except:
+            print(f"O item '{item}' não existe no inventário.")
         
     def salvar(self, pasta="Salvos"):
         os.makedirs(pasta, exist_ok=True)
@@ -133,6 +139,15 @@ class Personagem(Atributos, Habilidades, Efeitos):
                 personagem.aplicarEfeito("DIA", hora // 24)  # aplica efeito proporcional
 
             return dia, hora, minuto
+    
+    def transferencia(self, p1, p2, item):
+        try:
+            if "inventario" in p1.__dict__ and item in p1.__dict__["inventario"]:
+                valor = p1.__dict__["inventario"][item]  # pega a quantidade atual
+                p1.deletarItem(item)                     # remove do inventário do p1
+                p2.adicionarItem(item, valor)            # adiciona no inventário do p2
+        except:
+            print("Item não encontrado para transferência")
 
     @classmethod
     def carregar(cls, arquivo):

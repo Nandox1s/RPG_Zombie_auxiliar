@@ -39,7 +39,7 @@ while True:
 
 
 while True:
-    try:
+        
         print("-"*10)
         nome = input("Personagem da ação: ")
         p1 = Personagem.carregar(f"Salvos/{nome}.json")
@@ -62,6 +62,7 @@ while True:
                 p1.aplicarEfeito("sono",1)
                 print("Sente sono por cansaço")
         
+
         # Interface
         if acao == "x":
             break
@@ -265,6 +266,12 @@ while True:
         elif acao == "encontro":
             zombiesLocal.encontro()
 
+        elif acao == "transferir":
+            nome = input("Transferência para: ")
+            p2 = Personagem.carregar(f"Salvos/{nome}.json")
+            item = input("Item: ")
+            p1.transferencia(p1,p2,item)
+
         elif acao == "help":
             print("=== Lista de Ações Disponíveis ===")
             print("x                -> sair do jogo")
@@ -314,6 +321,5 @@ while True:
             p1.aplicarEfeito("MORAL",1)
 
         minuto += 1 
-    except:
-        print("Algum erro...")
+
         

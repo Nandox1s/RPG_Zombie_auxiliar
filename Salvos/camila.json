@@ -7,7 +7,7 @@
         "SOC": 0,
         "FIS": 0,
         "INT": 0,
-        "ACT": 3,
+        "ACT": 9,
         "DIA": 0,
         "HOR": 0,
         "MIN": 0,
@@ -53,13 +53,13 @@
         "braçoDireito": 0,
         "braçoEsquerdo": 0,
         "inventario": {
-            "faca": 32,
             "asd": 20,
             "fasdaca": 20,
             "faasdasdca": 20,
             "facasdasda": 20,
             "faasdaca": 20,
-            "faasdca": 20
+            "faasdca": 20,
+            "faca": 100
         }
     }
 }

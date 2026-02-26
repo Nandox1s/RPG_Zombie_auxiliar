@@ -39,7 +39,7 @@ while True:
 
 
 while True:
-        
+    try:
         print("-"*10)
         nome = input("Personagem da ação: ")
         p1 = Personagem.carregar(f"Salvos/{nome}.json")
@@ -50,9 +50,9 @@ while True:
 
         #Ações e efeitos em tempo de jogo
         for p in personagens:
-            ultimaBebida = Sobrevivencia.necessidades.necessidade(p,hora,ultimaBebida,"sede",6)
+            ultimaBebida = Sobrevivencia.necessidades.necessidade(p,hora,ultimaBebida,"sede",4)
 
-            ultimaRefeicao = Sobrevivencia.necessidades.necessidade(p,hora,ultimaRefeicao,"fome",8)
+            ultimaRefeicao = Sobrevivencia.necessidades.necessidade(p,hora,ultimaRefeicao,"fome",6)
 
             ultimoSono = Sobrevivencia.necessidades.necessidade(p,hora,ultimoSono,"sono",16)
 
@@ -190,8 +190,16 @@ while True:
             print(dia, ":", hora, ":", minuto)
 
         elif acao == "tempoAdd":
-            tempoadd = int(input("Minutos: "))
-            minuto += tempoadd
+            aux = input("Dia,hora,minuto")
+            if aux == "dia":
+                tempoadd = int(input("Dia: "))
+                dia += tempoadd
+            if aux == "hora":
+                tempoadd = int(input("Hora: "))
+                hora += tempoadd
+            if aux == "min":
+                tempoadd = int(input("Minutos: "))
+                minuto += tempoadd
 
         elif acao == "tempoRmv":
             tempormv = int(input("Tempo: "))
@@ -202,16 +210,17 @@ while True:
 
         elif acao == "dormir":
             quantHoras = int(input("Horas: "))
-            actAtual = p1.ACT
-            p1.removerEfeito("ACT", actAtual)
-            if 6 < quantHoras < 12:
-                p1.removerEfeito("sono", 1)
-            if quantHoras > 12:
-                p1.removerEfeito("sono", 2)
-            hora += quantHoras
+            for p in personagens:
+                actAtual = p.ACT
+                p.removerEfeito("ACT", actAtual)
+                if 6 < quantHoras < 12:
+                    p.removerEfeito("sono", 1)
+                if quantHoras > 12:
+                    p.removerEfeito("sono", 2)
+                hora += quantHoras/len(personagens)
+                if p.sono == 0:
+                    print(f"{p.nome} está descansado")
             print(dia, ":", hora, ":", minuto)
-            if p1.sono == 0:
-                print("Está descansado")
 
         elif acao == "comer":
             try:
@@ -303,6 +312,8 @@ while True:
             print("beber            -> consumir bebida")
             print("usar             -> usar item genérico")
             print("testeMoral       -> realizar teste de moral")
+            print("encontro         -> Endcontro com zumbis em locais")
+            print("transferir       -> Transferi itens entre personagens")
             print("help             -> mostrar esta lista de comandos")
             print("=================================")
 
@@ -321,5 +332,7 @@ while True:
             p1.aplicarEfeito("MORAL",1)
 
         minuto += 1 
+    except:
+        print("Algum erro")
 
         

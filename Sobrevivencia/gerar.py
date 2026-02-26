@@ -11,6 +11,7 @@ casa = {
     "macarrao": lambda: 3,
     "bolacha": lambda: 1,
     "chocolate": lambda: 1,
+    "enlatado_feijão": lambda: 1,
     # bebidas
     "agua": lambda: 4,
     "refri": lambda: 1,
@@ -53,7 +54,7 @@ def gerar_casa():
         list(casa.keys()),
         weights = [
             # comidas
-            8, 8, 8, 5, 6, 6, 5, 4,
+            8, 8, 8, 5, 6, 6, 5, 4, 4,
             # bebidas
             10, 6, 6, 3,
             # armas improvisadas
@@ -67,11 +68,11 @@ def gerar_casa():
             # primeiros socorros
             3, 2, 2, 2,
             #adições
-            2,1,1
+            2, 1, 1
 
 
         ],
-        k=randint(3, 12)
+        k=randint(1, 12)
     )
 
     for item in itens_sorteados:
@@ -170,7 +171,7 @@ def gerar_mercado():
             # higiene e misc
             2, 2, 2, 2
         ],
-        k=randint(5, 15)
+        k=randint(1, 15)
     )
 
     for item in itens_sorteados:
@@ -262,7 +263,7 @@ def gerar_posto():
     itens_sorteados = random.choices(
         list(posto.keys()),
         weights=weights,
-        k=randint(4, 12)
+        k=randint(1, 12)
     )
 
     for item in itens_sorteados:
@@ -338,7 +339,7 @@ def gerar_hospital():
     itens_sorteados = random.choices(
         list(hospital.keys()),
         weights=weights,
-        k=randint(4, 12)
+        k=randint(1, 12)
     )
 
     for item in itens_sorteados:
@@ -412,7 +413,7 @@ def gerar_delegacia():
     itens_sorteados = random.choices(
         list(delegacia.keys()),
         weights=weights,
-        k=randint(3, 10)
+        k=randint(1, 10)
     )
 
     for item in itens_sorteados:
@@ -493,7 +494,7 @@ def gerar_oficina():
     itens_sorteados = random.choices(
         list(oficina.keys()),
         weights=weights,
-        k=randint(4, 12)
+        k=randint(1, 12)
     )
 
     for item in itens_sorteados:

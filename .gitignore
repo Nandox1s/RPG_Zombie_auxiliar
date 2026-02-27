@@ -1,6 +1,4 @@
-# Ignorar a pasta .ignorar inteira
 .ignorar/
-
+.Salvos/
 .Sobrevivencia/__pycache__/
 .Atributos/__pycache__/
-

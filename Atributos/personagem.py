@@ -125,20 +125,6 @@ class Personagem(Atributos, Habilidades, Efeitos):
 
         with open(arquivo, "w", encoding="utf-8") as f:
             json.dump(dados, f, ensure_ascii=False, indent=4)
-
-    def atualizar_tempo(self,hora, minuto, dia, personagem):
-            # normaliza minutos
-            if minuto >= 60:
-                hora += minuto // 60
-                minuto = minuto % 60
-
-            # normaliza horas
-            if hora >= 24:
-                dia += hora // 24
-                hora = hora % 24
-                personagem.aplicarEfeito("DIA", hora // 24)  # aplica efeito proporcional
-
-            return dia, hora, minuto
     
     def transferencia(self, p1, p2, item):
         try:

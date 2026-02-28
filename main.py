@@ -253,12 +253,13 @@ while True:
     elif acao == "usar":
         try:
             item = input("Item: ")
+            valor = int(input("Valor: "))
             if p1.removerItem(item, 1) == "minimo":
                 p1.deletarEfeito(item)
                 print("lixo jogado fora")
                 continue
             efeito = input("Efeito: ")
-            p1.removerEfeito(efeito, 1)
+            p1.removerEfeito(efeito, valor)
         except:
             print("Item não encontrado")
 
@@ -278,6 +279,10 @@ while True:
         p2 = Personagem.carregar(f"Salvos/{nome}.json")
         item = input("Item: ")
         p1.transferencia(p1,p2,item)
+
+    elif acao == "bandagem":
+        parte = input("Parte: ")
+        Sobrevivencia.necessidades.bandagem(p1,parte)
 
     elif acao == "help":
         print("=== Lista de Ações Disponíveis ===")
@@ -312,7 +317,8 @@ while True:
         print("testeMoral       -> realizar teste de moral")
         print("encontro         -> Endcontro com zumbis em locais")
         print("transferir       -> Transferi itens entre personagens")
-        print("help             -> mostrar esta lista de comandos")
+        print("bandagem          -> Curar com bandagem parte do corpo")
+        print("help             -> mostrar esta lista de comandos")        
         print("=================================")
 
 

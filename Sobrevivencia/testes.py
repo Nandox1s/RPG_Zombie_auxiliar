@@ -88,6 +88,8 @@ def ferimento(p1):
         }
         parte = mapa[onde]
         p1.aplicarEfeito(parte, 1)
+        if parte == 4:
+            return print(f"{parte} Desabilitado")
         print(f"Ferimento em {parte}")
 
 def zombieAtaque(p1):

@@ -7,7 +7,10 @@ class Efeitos:
         infec=0, cocaina=0,
         cabeça=0, tronco=0,
         pernaDireita=0, pernaEsquerda=0,
-        braçoDireito=0, braçoEsquerdo=0
+        braçoDireito=0, braçoEsquerdo=0,
+        cabeçaCura=0, troncoCura=0,
+        pernaDireitaCura=0, pernaEsquerdaCura=0,
+        braçoDireitoCura=0,braçoEsquerdoCura=0
     ):
         self.sono = sono
         self.fome = fome
@@ -30,3 +33,12 @@ class Efeitos:
         self.pernaEsquerda = pernaEsquerda
         self.braçoDireito = braçoDireito
         self.braçoEsquerdo = braçoEsquerdo
+
+        #curando
+        self.cabeçaCura = cabeçaCura
+        self.troncoCura = troncoCura
+        self.pernaDireitaCura = pernaDireitaCura
+        self.pernaEsquerdaCura = pernaEsquerdaCura
+        self.braçoDireitoCura = braçoDireitoCura
+        self.braçoEsquerdoCura = braçoEsquerdoCura
+

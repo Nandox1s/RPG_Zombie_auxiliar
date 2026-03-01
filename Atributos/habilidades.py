@@ -34,6 +34,16 @@ class Habilidades:
         self.psicologia = psicologia
         self.administracao = administracao
 
-    def usoHabilidade():
-        pass
-    
+
+    def mostrar():
+        h = Habilidades()
+        cont = 0
+        for atributo, valor in h.__dict__.items():
+            cont += 1
+            if cont < 4:
+                print(f"{atributo} ",end=" - ")
+            if cont == 4:
+                print(atributo)
+                cont = 0
+        return h.__dict__.items()
+

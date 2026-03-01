@@ -1,4 +1,5 @@
 from Atributos.personagem import Personagem
+from Atributos.personagem import Habilidades
 import Sobrevivencia.gerar
 import Sobrevivencia.testes
 import Sobrevivencia.zombies
@@ -10,27 +11,69 @@ personagens = []
 # CARREGAR OU CRIAR PERSONAGEM
 # =========================
 while True:
-    try:
-        nome = input("Carregar Personagem: ")
-        if nome == "criar":
-            novo_nome = input("Nome do novo personagem: ")
-            p = Personagem(novo_nome)
-            p.salvar()
-            personagens.append(p)
-            print(f"Personagem {novo_nome} criado e salvo.")
+    nome = input("Carregar Personagem: ")
+    if nome == "criar":
+        DICHabilidades = {}
+        FIS, INT, SOC = 0, 0, 0
+        nome_novo = input("Nome: ")
+        idade = int(input("Idade: "))
+        emprego = input("Emprego: ")
 
-        elif nome == "x":
-            break
+        # Distribuição de pontos
+        while (FIS + INT + SOC) != 9:
+            print("Você tem 9 pontos para distribuir, caso não consiga tente novamente")
+            FIS = int(input("FIS: "))
+            INT = int(input("INT: "))
+            SOC = int(input("SOC: "))
 
-        else:
-            try:
+        print("Você tem 4 pontos para distribuir nas habilidades")
+        habilidades_validas = [
+            "armas_de_fogo","armas_brancas","desarmado","demolicao","conducao",
+            "persuasao","lideranca","furtividade","cozinha","reparos","ciencias",
+            "medicina","informatica","eletronica","psicologia","administracao"
+        ]
+        print("Habilidades disponíveis:", ", ".join(habilidades_validas))
+
+        soma = 0
+        while True:
+            key = input("Habilidade: ")
+            value = int(input("Valor: "))
+
+            if key not in habilidades_validas:
+                DICHabilidades = {}
+                soma = 0
+                print("Habilidade inválida. Habilidades resetadas, tente novamente")
+                continue
+
+            DICHabilidades[key] = value * 10
+            soma = sum(DICHabilidades.values())
+
+            if soma > 40:
+                DICHabilidades = {}
+                soma = 0
+                print("Usou mais que 4 pontos. Habilidades resetadas, tente novamente")
+                continue
+
+            aux = input("Continuar S/N: ")
+            if aux.lower() == "n":
+                break
+
+        Sobrevivencia.gerar.criarDinamico(nome_novo, idade, emprego, FIS, INT, SOC, DICHabilidades)
+
+    elif nome == "x":
+        break
+
+    else:
+        try:
+            # checa se já carregou personagem com esse nome
+            if not any(p.nome == nome for p in personagens):
                 p = Personagem.carregar(f"Salvos/{nome}.json")
                 personagens.append(p)
                 print(f"Personagem {nome} carregado.")
-            except:
-                print(f"Não foi possível carregar {nome}.")
-    except:
-        print("Algum erro...")
+            else:
+                print(f"Personagem {nome} já está carregado.")
+        except:
+            print(f"Não foi possível carregar {nome}.")
 
 # =========================
 # LOOP PRINCIPAL DE AÇÕES

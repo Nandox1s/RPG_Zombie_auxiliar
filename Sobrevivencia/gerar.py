@@ -1,5 +1,6 @@
 import random
 from random import randint
+from Atributos import personagem
 
 casa = {
     # comidas
@@ -527,3 +528,17 @@ def gerar_loot(local):
     if local == "oficina":
         gerar_oficina()
 
+def criarDinamico(nome, idade, emprego, FIS, INT, SOC, DICHabilidades):
+    # atribuindo atributos
+    p1 = personagem.Personagem(nome)
+    p1.idade = idade
+    p1.PROF = emprego
+    p1.FIS = FIS
+    p1.INT = INT
+    p1.SOC = SOC
+
+    # adiciona cada habilidade
+    for key, value in DICHabilidades.items():
+        p1.adicionarEfeito(key, value)
+
+    p1.salvar()

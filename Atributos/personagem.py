@@ -142,3 +142,7 @@ class Personagem(Atributos, Habilidades, Efeitos):
         personagem = cls(dados["nome"])
         personagem.__dict__.update(dados["atributos"])
         return personagem
+    
+
+
+    

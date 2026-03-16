@@ -1,15 +1,18 @@
-🧟 RPG_Zombie_auxiliar
+#🧟 RPG_Zombie_auxiliar
+
 Um sistema auxiliar para o RPG de mesa Zombie_RPG (PDF gratuito disponível na internet).
 Este projeto não substitui o jogo, mas automatiza testes, encontros e evolução dos personagens, funcionando como um mundo auxiliar para a campanha.
 
-📌 Requisitos
+##📌 Requisitos
+
 Python instalado (versão 3.x).
 
 Baixar o repositório e executar o arquivo main.py.
 
 Não há dependências externas: apenas Python puro.
 
-🎯 Objetivo
+##🎯 Objetivo
+
 Facilitar a execução de testes e rolagens do sistema Zombie_RPG.
 
 Gerar eventos aleatórios como encontros e loot.
@@ -20,7 +23,8 @@ Controlar necessidades básicas (fome, sede, sono) de forma automática.
 
 Registrar o tempo de jogo (dia, hora, minuto) e aplicar efeitos conforme o passar do tempo.
 
-⚙️ Funcionalidades principais
+##⚙️ Funcionalidades principais
+
 Criação e carregamento de personagens: salvos em JSON e recuperados em sessões futuras.
 
 Sistema de tempo: controla horas, minutos e dias, aplicando efeitos como cansaço e necessidades.
@@ -35,7 +39,8 @@ Eventos aleatórios: geração de loot e encontros com zumbis.
 
 Persistência: evolução do personagem e tempo salvos no JSON.
 
-🚀 Como usar
+##🚀 Como usar
+
 Execute o programa principal:
 
 bash
@@ -48,7 +53,8 @@ O sistema atualiza automaticamente o tempo e as necessidades dos personagens.
 
 Ao sair, os personagens são salvos com suas evoluções e tempo atual.
 
-📖 Exemplos de comandos
+##📖 Exemplos de comandos
+
 criar → cria um novo personagem.
 
 zombieAtaque → enfrenta um ataque de zumbi.
@@ -63,7 +69,8 @@ tempo → mostra o tempo atual (dia:hora:minuto).
 
 help → lista todos os comandos disponíveis.
 
-🧩 Observações
+##🧩 Observações
+
 Este sistema é apenas um auxiliar para o RPG de mesa Zombie_RPG.
 
 Não substitui a narração ou as regras originais, mas automatiza partes repetitivas.
